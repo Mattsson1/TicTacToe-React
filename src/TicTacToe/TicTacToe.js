@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react';//importerar 'React' och använder 'useState' som är en Hook vilket tillåter mig att följa nuvarande statusen i en funktion komponent
 import './TicTacToe.css';
 
 
 
-const TicTacToe = () => {
+const TicTacToe = () => {//Här använder jag en så kallad 'arrow function' vilket gör att jag kan skriva kortate funktion syntax
     
-    const [turn, setTurn] = useState('x');// Vid varje start kommer X att börja
-    const [cells, setCells] = useState(Array(9).fill(''));//Vi vill hålla reda på vad spelaren trycker på
-    const [winner,setWinner] = useState();
+    const [turn, setTurn] = useState('x');// Vid varje start kommer X att börja, 
+    const [cells, setCells] = useState(Array(9).fill(''));//Vi vill hålla reda på vad spelaren trycker på, useState sätter vi till 9st tomma strings. Defualt kommer alltså vara 9st tomma strings
+    const [winner,setWinner] = useState();//Winner sätter vi default till null
     //Funktionen för att kolla ifall någon vunnit, en till 'arrow function'
     const checkForWinner = (squares) => {
-        let combos = {
-            across: [
+        let combos = {//Skapar en variabel som ska innehålla de olika vinn4 kombinationerna
+            across:[
                 [0,1,2],
                 [3,4,5],
                 [6,7,8],
@@ -28,10 +28,10 @@ const TicTacToe = () => {
 
         }
 
-        for (let combo in combos){
-            combos[combo].forEach((pattern) => {
+        for (let combo in combos){//För varje kombination i "combos" alltså, Across, Down och Diagnol
+            combos[combo].forEach((pattern) => {//Vi vill leta efter en kombination i 'combo'
                 if(
-                    squares[pattern[0]]=== '' ||
+                    squares[pattern[0]]=== '' ||//Om det finns en kombination som är empty...
                     squares[pattern[1]]=== '' ||
                     squares[pattern[2]]=== ''
                 )
@@ -40,10 +40,11 @@ const TicTacToe = () => {
                 }else if
                     (
                     squares[pattern[0]] === squares[pattern[1]] &&
-                    squares[pattern[1]] === squares[pattern[2]] 
+                    squares[pattern[1]] === squares[pattern[2]]//om 3 rutor matchar med vinn kombinationerna så har man vunnit
+                    
                     )
                     {
-                        setWinner(squares[pattern[0]])
+                        setWinner(squares[pattern[0]])//Vi sätter vinnaren till bokstaven som är nuvarande i squares
                     }
             })
         }
@@ -52,19 +53,19 @@ const TicTacToe = () => {
     }
 
 
-    const playerClick = (num) => {
-        let squares = [...cells];
+    const playerClick = (num) => {//Här skapar vi en funktion som kommer ta hand om vilken ruta spelaren klickar på
+        let squares = [...cells];//Här kopierar vi 'cells' arryen in till squares
     if(cells[num] !== '')//Så att spelaren inte kan välja samma ruta igen
     {
-    alert("Redan vald!");
+    alert("Ruta redan vald!");
     return;
     }
-
-    if(turn === 'x'){
-        squares[num] = 'x';
-        setTurn('o')
+    //If-Satsen som byter vems tur det är, X eller O
+    if(turn === 'x'){//Om det är x tur
+        squares[num] = 'x';//Sätter vi squares[num] till x
+        setTurn('o')//Ändrar till 'O's tur
     }else{
-        squares[num] = 'o';
+        squares[num] = 'O';
         setTurn('x')
     }
 
@@ -75,21 +76,21 @@ const TicTacToe = () => {
 
     }
 
-    const handleRestart = () => {
+    const handleRestart = () => {//Skapar en restart funktion, sätter vinnaren till 'null' och sätter 'cells' till tomma strings vilket nollställer allt
         setWinner(null)
         setCells(Array(9).fill(''));
     }
 
-
+    
 
     const Cell = ({num}) => {
-        return <td onClick={() => playerClick(num)}>{cells[num]}</td>;
+        return <td onClick={() => playerClick(num)}>{cells[num]}</td>;//Vid onClick kör vi playerClick funktionen,
     };
-
+    //Spelbrädan
     return ( 
     <div className="Container">
         <table>
-            Turn: {turn}
+            <div id="Turn">Turn:{turn}</div>
             <tbody>
                 <tr>
                     <Cell num={0}></Cell>
@@ -108,15 +109,17 @@ const TicTacToe = () => {
                 </tr>
             </tbody>
         </table>
+        <div id="win">
         {winner && 
         (
             <>
             <p>{winner} is the winner!</p>
             <button onClick={() => handleRestart()}>Restart</button>
-            </>
+            </>//Kör en onClick funktion och så vill vi köra handleRestart funktionen
 
         )
         }
+        </div>
     </div>
     );
 };

@@ -2,11 +2,20 @@
     display: flex;
     justify-content: center;
     
+    font-size: 50px;
+    
 }
 
 table td {
-    border: 1px solid black;
+    border: 3px solid black;
     width: 100px;
     height: 100px;
     text-align: center;
+}
+#Turn{
+    font-size: 40px;
+    
+}
+#win{
+    text-align: left;
 }
